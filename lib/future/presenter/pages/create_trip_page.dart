@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inno_commute/future/model/cubit/navigator_cubit.dart';
 import 'package:inno_commute/future/model/cubit/new_trip_cubit.dart';
 import 'package:inno_commute/future/model/repository/trips_repository.dart';
+import 'package:inno_commute/future/presenter/res/text_const.dart';
 import 'package:inno_commute/future/presenter/res/widgets/create_trip_page_widgets/date_time_picker.dart';
 import 'package:inno_commute/future/presenter/res/widgets/create_trip_page_widgets/direction_picker.dart';
 import 'package:inno_commute/future/presenter/res/widgets/create_trip_page_widgets/selector.dart';
@@ -16,19 +18,11 @@ class CreateTripPage extends StatelessWidget {
     var _commentController = TextEditingController();
     return SingleChildScrollView(
       child: Column(
-        // mainAxisAlignment: MainAxisAlignment.start,
         children: [
           TypeOfTripSelector(),
           const Padding(
-            padding: EdgeInsets.symmetric(vertical: 16.0),
+            padding: EdgeInsets.symmetric(vertical: 8.0),
             child: Divider(),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30.0),
-            child: Text(
-              'Укажите дату и время окончания активности поездки',
-              textAlign: TextAlign.center,
-            ),
           ),
           const TripDateTimePicker(),
           const Padding(
@@ -37,17 +31,21 @@ class CreateTripPage extends StatelessWidget {
           ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 18.0),
-            child: Text('Укажите город выезда и назначения'),
+            child: Text(
+              setFromDirection,
+              style: TextStyle(color: Colors.cyan),
+            ),
           ),
           const SelectDirectionWidget(),
           const Padding(
-            padding: EdgeInsets.symmetric(vertical: 16.0),
+            padding: EdgeInsets.symmetric(vertical: 8.0),
             child: Divider(),
           ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
             child: Text(
-              'Добавить комментарий к поездке',
+              commentDescription,
+              style: TextStyle(color: Colors.cyan),
               textAlign: TextAlign.center,
             ),
           ),
@@ -58,8 +56,8 @@ class CreateTripPage extends StatelessWidget {
                   border: OutlineInputBorder(
                       gapPadding: 2,
                       borderSide: BorderSide(color: Colors.teal)),
-                  helperText: 'Кол-во человек, точное место и т.д.',
-                  labelText: 'Комментарий',
+                  helperText: commentHelper,
+                  labelText: commentText,
                   prefixIcon: Icon(
                     Icons.description_outlined,
                     color: Colors.cyan,
@@ -77,21 +75,21 @@ class CreateTripPage extends StatelessWidget {
               if (TripsRepository(
                       context.read<NewTripCubit>().state.repository.trip)
                   .createTrip()) {
+                context.read<NavigatorCubit>().switchMyTripsPage();
                 const snackBar = SnackBar(
                   duration: Duration(seconds: 2),
-                  content: Text('Поездка создана'),
+                  content: Text(tripWasCreated),
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } else {
                 const snackBar = SnackBar(
                   duration: Duration(seconds: 2),
-                  content: Text(
-                      'Ошибка. Проверьте, все ли данные корректно заполнены.'),
+                  content: Text(tripWasNotCreated),
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }
             },
-            child: const Text('Создать поездку'),
+            child: const Text(createTripText),
             style: ElevatedButton.styleFrom(
               primary: Colors.cyan,
             ),

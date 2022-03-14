@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:inno_commute/future/model/cubit/new_trip_cubit.dart';
+import 'package:inno_commute/future/presenter/res/text_const.dart';
 
 class TripDateTimePicker extends StatelessWidget {
   const TripDateTimePicker({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    DateTime minDate = DateTime.now();
-    DateTime maxDate = DateTime(minDate.year, minDate.month, minDate.day + 2,
-        minDate.hour + 23, minDate.minute + 59);
+    DateTime minDate = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, DateTime.now().hour, DateTime.now().minute + 5);
+    DateTime maxDate =
+        DateTime(minDate.year, minDate.month, minDate.day + 2, 23, 59);
     bool wasSelected = false;
     return BlocBuilder<NewTripCubit, NewTripState>(
       builder: (context, state) {
@@ -37,7 +39,10 @@ class TripDateTimePicker extends StatelessWidget {
                     .toLocal()
                     .toString()
                     .substring(0, 16))
-                : const Text('Выбрать дату и время поездки'));
+                : const Text(
+                    setDateTrip,
+                    textAlign: TextAlign.center,
+                  ));
       },
     );
   }
