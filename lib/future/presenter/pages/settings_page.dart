@@ -5,8 +5,24 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Settings Page'),
-    );
+    return const SettingsPageIsNotAuthorized();
+  }
+}
+
+class SettingsPageIsAuthorized extends StatelessWidget {
+  const SettingsPageIsAuthorized({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+class SettingsPageIsNotAuthorized extends StatelessWidget {
+  const SettingsPageIsNotAuthorized({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

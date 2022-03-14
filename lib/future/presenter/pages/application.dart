@@ -8,6 +8,7 @@ import 'package:inno_commute/future/presenter/pages/drivers_page.dart';
 import 'package:inno_commute/future/presenter/pages/passengers_page.dart';
 import 'package:inno_commute/future/presenter/pages/my_trips_page.dart';
 import 'package:inno_commute/future/presenter/pages/settings_page.dart';
+import 'package:inno_commute/future/presenter/res/text_const.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Inno Commute',
+      title: appName,
       theme: ThemeData.light(),
       home: MultiBlocProvider(
         providers: [
@@ -62,27 +63,27 @@ class MainTemplate extends StatelessWidget {
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.emoji_people),
-                label: 'Пассажиры',
+                label: passengerP,
                 backgroundColor: Colors.cyan,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.drive_eta_sharp),
-                label: 'Водители',
+                label: driverP,
                 backgroundColor: Colors.cyan,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.add),
-                label: 'Новая поездка',
+                label: newTripP,
                 backgroundColor: Colors.cyan,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.list),
-                label: 'Мои поездки',
+                label: myTripP,
                 backgroundColor: Colors.cyan,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.settings),
-                label: 'Настройки',
+                label: settingsP,
                 backgroundColor: Colors.cyan,
               ),
             ],
@@ -113,81 +114,3 @@ class MainTemplate extends StatelessWidget {
     );
   }
 }
-
-/*
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = [
-    PassengerPage(),
-    DriverPage(),
-    CreateTripPage(),
-    MyTripsPage(),
-    SettingsPage(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle.light,
-        backgroundColor: Colors.cyan,
-        centerTitle: true,
-        title: Text(widget.title),
-      ),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-        child: Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.emoji_people),
-            label: 'Пассажиры',
-            backgroundColor: Colors.cyan,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.drive_eta_sharp),
-            label: 'Водители',
-            backgroundColor: Colors.cyan,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'Новая поездка',
-            backgroundColor: Colors.cyan,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Мои поездки',
-            backgroundColor: Colors.cyan,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Настройки',
-            backgroundColor: Colors.cyan,
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.white,
-        onTap: _onItemTapped,
-      ),
-    );
-  }
-}
-*/

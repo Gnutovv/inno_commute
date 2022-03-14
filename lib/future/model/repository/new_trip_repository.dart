@@ -35,6 +35,11 @@ class NewTripRepository {
   }
 
   void addComment(String comment) {
-    if (comment != '') trip.comment = comment;
+    trip.comment = comment;
+    if (trip.comment != '') {
+      trip.isComment = true;
+    } else {
+      trip.isComment = false;
+    }
   }
 }

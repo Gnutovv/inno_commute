@@ -16,6 +16,10 @@ class CreateTripPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _commentController = TextEditingController();
+    if (context.read<NewTripCubit>().state.repository.trip.isComment) {
+      _commentController.text =
+          context.read<NewTripCubit>().state.repository.trip.comment;
+    }
     return SingleChildScrollView(
       child: Column(
         children: [
