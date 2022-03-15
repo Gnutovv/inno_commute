@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "458229855336",
+    "project_id": "innocommute-285e7",
+    "storage_bucket": "innocommute-285e7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458229855336:android:628e2371638601d02637dd",
+        "android_client_info": {
+          "package_name": "com.suneru.innocomute.inno_commute"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "458229855336-k9fm9tdr8eikr8el00j225sdi973ktc3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvMrFMVLAGulElocEre_hTeEo2UDg4Fg0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "458229855336-k9fm9tdr8eikr8el00j225sdi973ktc3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
