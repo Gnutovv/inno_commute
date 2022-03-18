@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inno_commute/future/model/cubit/navigator_cubit.dart';
 import 'package:inno_commute/future/model/cubit/new_trip_cubit.dart';
+import 'package:inno_commute/future/model/cubit/user_cubit.dart';
 import 'package:inno_commute/future/presenter/pages/create_trip_page.dart';
 import 'package:inno_commute/future/presenter/pages/drivers_page.dart';
 import 'package:inno_commute/future/presenter/pages/passengers_page.dart';
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
           BlocProvider<NewTripCubit>(
             create: (context) => NewTripCubit(),
           ),
-          BlocProvider<NavigatorCubit>(create: ((context) => NavigatorCubit())),
+          BlocProvider<NavigatorCubit>(create: (context) => NavigatorCubit()),
+          BlocProvider<UserCubit>(create: (context) => UserCubit()),
         ],
         child: const MainTemplate(),
       ),
@@ -36,6 +38,7 @@ class MainTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<UserCubit>().userInit();
     const List<Widget> _pages = [
       PassengerPage(),
       DriverPage(),

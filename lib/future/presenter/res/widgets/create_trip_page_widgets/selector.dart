@@ -22,8 +22,6 @@ class TypeOfTripSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<NewTripCubit, NewTripState>(
       builder: (context, state) {
-        //context.read<NewTripCubit>().state.repository.trip.id;
-
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

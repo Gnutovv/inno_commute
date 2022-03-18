@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inno_commute/future/model/cubit/navigator_cubit.dart';
 import 'package:inno_commute/future/model/cubit/new_trip_cubit.dart';
+import 'package:inno_commute/future/model/cubit/user_cubit.dart';
 import 'package:inno_commute/future/model/repository/trips_repository.dart';
 import 'package:inno_commute/future/presenter/res/text_const.dart';
 import 'package:inno_commute/future/presenter/res/widgets/create_trip_page_widgets/date_time_picker.dart';
@@ -12,6 +13,19 @@ class CreateTripPage extends StatelessWidget {
   const CreateTripPage({
     Key? key,
   }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return context.read<UserCubit>().state.repository.isAuthorized()
+        ? const NewTrip()
+        : const Center(
+            child: Text('Для создания поездки необходимо авторизоваться.'),
+          );
+  }
+}
+
+class NewTrip extends StatelessWidget {
+  const NewTrip({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
