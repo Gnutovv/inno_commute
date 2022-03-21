@@ -9,3 +9,11 @@ abstract class UserState {
 class UserInitial extends UserState {
   const UserInitial(UserRepository repository) : super(repository);
 }
+
+class AuthorizationUser extends UserState {
+  const AuthorizationUser(UserRepository repository) : super(repository);
+}
+
+class DeauthorizationUser extends UserState {
+  DeauthorizationUser(UserRepository repository) : super(repository);
+}

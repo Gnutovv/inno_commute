@@ -11,7 +11,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserCubit, UserState>(
       builder: (context, state) {
-        return context.read<UserCubit>().state.repository.isAuthorized()
+        return context.read<UserCubit>().state.repository.getAuthorizedState()
             ? const SettingsPageIsAuthorized()
             : const SettingsPageIsNotAuthorized();
       },

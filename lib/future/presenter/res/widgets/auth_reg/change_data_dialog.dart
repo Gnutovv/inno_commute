@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inno_commute/future/model/cubit/user_cubit.dart';
 
-class RegistrationDialog extends StatelessWidget {
-  const RegistrationDialog({Key? key}) : super(key: key);
+class ChangeDataDialog extends StatelessWidget {
+  const ChangeDataDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,20 +14,29 @@ class RegistrationDialog extends StatelessWidget {
       'alias': TextEditingController(),
       'name': TextEditingController()
     };
+
+    _controllers['login']!.text =
+        context.read<UserCubit>().state.repository.user.login;
+    _controllers['name']!.text =
+        context.read<UserCubit>().state.repository.user.name;
+    _controllers['alias']!.text =
+        context.read<UserCubit>().state.repository.user.alias;
+    _controllers['password']!.text =
+        context.read<UserCubit>().state.repository.user.password;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle.light,
         backgroundColor: Colors.cyan,
-        title: const Text('Регистрация'),
+        title: const Text('Изменить данные'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Text(
-            'Регистрация',
-            style: TextStyle(fontSize: 32, color: Colors.cyan),
+            'Редактировать данные',
+            style: TextStyle(fontSize: 24, color: Colors.cyan),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
@@ -105,7 +114,9 @@ class RegistrationDialog extends StatelessWidget {
                     .read<UserCubit>()
                     .state
                     .repository
-                    .registerUser(
+                    .editData(
+                        userId:
+                            context.read<UserCubit>().state.repository.user.id,
                         login: _controllers['login']!.text,
                         name: _controllers['name']!.text,
                         alias: _controllers['alias']!.text,
@@ -114,12 +125,13 @@ class RegistrationDialog extends StatelessWidget {
                         ? ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                             duration: Duration(seconds: 2),
-                            content: Text('Учетная запись зарегистрирована'),
+                            content: Text('Данные изменены'),
                           ))
                         : ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                             duration: Duration(seconds: 2),
-                            content: Text('Такой пользователь уже существует'),
+                            content: Text(
+                                'Такой пользователь уже существует, смените логин'),
                           )));
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -128,7 +140,7 @@ class RegistrationDialog extends StatelessWidget {
                 ));
               }
             },
-            child: const Text('Регистрация'),
+            child: const Text('Изменить'),
             style: ElevatedButton.styleFrom(
               primary: Colors.cyan,
             ),

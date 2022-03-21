@@ -16,7 +16,7 @@ class CreateTripPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return context.read<UserCubit>().state.repository.isAuthorized()
+    return context.read<UserCubit>().state.repository.isAuthorized
         ? const NewTrip()
         : const Center(
             child: Text('Для создания поездки необходимо авторизоваться.'),
@@ -36,6 +36,7 @@ class NewTrip extends StatelessWidget {
     }
     return SingleChildScrollView(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           TypeOfTripSelector(),
           const Padding(

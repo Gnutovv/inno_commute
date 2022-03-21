@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:inno_commute/future/model/entities/user.dart';
 import 'package:inno_commute/future/model/repository/user_repository.dart';
 import 'package:meta/meta.dart';
@@ -10,5 +11,24 @@ class UserCubit extends Cubit<UserState> {
 
   void userInit() {
     state.repository.userInit();
+  }
+
+  void userDeauth() {
+    state.repository.deauthorization();
+    emit(DeauthorizationUser(state.repository));
+  }
+
+  Future<bool> authorizationUser(String login, String password) async {
+    await state.repository
+        .authorizationUser(login: login, password: password)
+        .then((value) {
+      if (value) {
+        emit(AuthorizationUser(state.repository));
+        return true;
+      } else {
+        return false;
+      }
+    });
+    return true;
   }
 }

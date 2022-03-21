@@ -35,6 +35,7 @@ class SettingsPageIsNotAuthorized extends StatelessWidget {
             height: 28,
           ),
           TextField(
+            obscureText: true,
             decoration: const InputDecoration(
                 border: OutlineInputBorder(
                     gapPadding: 2, borderSide: BorderSide(color: Colors.teal)),
@@ -48,7 +49,10 @@ class SettingsPageIsNotAuthorized extends StatelessWidget {
           ),
           const SizedBox(height: 32),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              context.read<UserCubit>().authorizationUser(
+                  _loginController.text, _passController.text);
+            },
             child: const Text('Авторизоваться'),
             style: ElevatedButton.styleFrom(
               primary: Colors.cyan,
