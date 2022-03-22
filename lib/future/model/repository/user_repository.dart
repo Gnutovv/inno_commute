@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
@@ -11,31 +10,27 @@ class UserRepository {
   bool isAuthorized = false;
   UserRepository(this.user);
 
-  Future<bool> userInit() async {
+  Future<void> userInit() async {
     final prefs = await SharedPreferences.getInstance();
     user.id = prefs.getString('id') ?? 'null';
     user.login = prefs.getString('login') ?? 'null';
     user.password = prefs.getString('password') ?? 'null';
 
-    if (user.id == 'null') {
-      return false;
+    if (user.id != 'null') {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.id)
+          .get()
+          .then((value) {
+        if (user.login.toLowerCase() == value.get('up_login') &&
+            user.password == value.get('password')) {
+          user.alias = prefs.getString('alias') ?? 'null';
+          user.name = prefs.getString('name') ?? 'null';
+          isAuthorized = true;
+          return true;
+        }
+      });
     }
-
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.id)
-        .get()
-        .then((value) {
-      if (user.login.toLowerCase() == value.get('up_login') &&
-          user.password == value.get('password')) {
-        user.alias = prefs.getString('alias') ?? 'null';
-        user.name = prefs.getString('name') ?? 'null';
-        isAuthorized = true;
-        return true;
-      }
-    });
-
-    return false;
   }
 
   Future<void> userSave() async {

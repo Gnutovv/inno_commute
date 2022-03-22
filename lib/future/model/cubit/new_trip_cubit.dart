@@ -36,4 +36,9 @@ class NewTripCubit extends Cubit<NewTripState> {
     state.repository.addComment(comment);
     emit(NewTripAddComment(state.repository));
   }
+
+  Future<bool> createTrip(String creatorId, String name, String alias) async {
+    bool res = await state.repository.createTrip(creatorId, name, alias);
+    return res;
+  }
 }

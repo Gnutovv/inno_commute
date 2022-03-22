@@ -1,8 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inno_commute/future/model/directions.dart';
 import 'package:inno_commute/future/model/entities/trip.dart';
 
 class NewTripRepository {
-  Trip trip = Trip(time: DateTime.now());
+  Trip trip = Trip(time: DateTime.now(), creatorId: '');
 
   void switchTypeOnPassenger() {
     if (trip.isDriver) trip.isDriver = false;
@@ -41,5 +42,24 @@ class NewTripRepository {
     } else {
       trip.isComment = false;
     }
+  }
+
+  Future<bool> createTrip(String creatorId, String name, String alias) async {
+    String collection = trip.isDriver ? 'trips_driver' : 'trips_passenger';
+    var fs = FirebaseFirestore.instance.collection(collection);
+    await fs.add({
+      'is_driver': trip.isDriver,
+      'author': name,
+      'creator_id': creatorId,
+      'city_from': trip.cityFrom.cityToString(),
+      'city_to': trip.cityTo.cityToString(),
+      'time': trip.time.millisecondsSinceEpoch,
+      'is_comment': trip.isComment,
+      'comment': trip.comment,
+      'active': trip.active,
+      'alias': alias,
+    });
+
+    return true;
   }
 }

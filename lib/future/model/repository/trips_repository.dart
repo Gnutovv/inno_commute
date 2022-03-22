@@ -5,7 +5,7 @@ class TripsRepository {
 
   TripsRepository(this.trip);
 
-  bool createTrip() {
+  bool checkTime() {
     if (trip.time.isBefore(DateTime.now())) return false;
     return true;
   }

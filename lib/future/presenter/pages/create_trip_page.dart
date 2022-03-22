@@ -18,8 +18,19 @@ class CreateTripPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return context.read<UserCubit>().state.repository.isAuthorized
         ? const NewTrip()
-        : const Center(
-            child: Text('Для создания поездки необходимо авторизоваться.'),
+        : Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Для создания поездки необходимо'),
+                TextButton(
+                  onPressed: () {
+                    context.read<NavigatorCubit>().switchSettingsPage();
+                  },
+                  child: const Text('авторизоваться'),
+                ),
+              ],
+            ),
           );
   }
 }
@@ -88,18 +99,57 @@ class NewTrip extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               String _commentText = _commentController.text;
-              if (_commentText != '') {
+              debugPrint('Проверяем наличие коммента');
+              if (_commentText.isNotEmpty) {
+                debugPrint('Коммент есть, добавляем в репо, и меняем булево');
                 context.read<NewTripCubit>().addComment(_commentText);
+                context.read<NewTripCubit>().state.repository.trip.isComment =
+                    true;
+              } else {
+                debugPrint('Коммента нет, обнуляем в репо, и меняем булево');
+                context.read<NewTripCubit>().addComment('');
+                context.read<NewTripCubit>().state.repository.trip.isComment =
+                    false;
               }
+
+              debugPrint('Создаем поездку');
               if (TripsRepository(
-                      context.read<NewTripCubit>().state.repository.trip)
-                  .createTrip()) {
-                context.read<NavigatorCubit>().switchMyTripsPage();
-                const snackBar = SnackBar(
-                  duration: Duration(seconds: 2),
-                  content: Text(tripWasCreated),
+                          context.read<NewTripCubit>().state.repository.trip)
+                      .checkTime() &&
+                  context.read<NewTripCubit>().state.repository.trip.cityFrom !=
+                      context
+                          .read<NewTripCubit>()
+                          .state
+                          .repository
+                          .trip
+                          .cityTo) {
+                String name =
+                    context.read<UserCubit>().state.repository.user.name;
+                String creatorId =
+                    context.read<UserCubit>().state.repository.user.id;
+                String alias =
+                    context.read<UserCubit>().state.repository.user.alias;
+                debugPrint('User: $creatorId, name: $name');
+                context
+                    .read<NewTripCubit>()
+                    .createTrip(creatorId, name, alias)
+                    .then(
+                  (value) {
+                    if (value) {
+                      context.read<NavigatorCubit>().switchMyTripsPage();
+                      const snackBar = SnackBar(
+                        duration: Duration(seconds: 2),
+                        content: Text(tripWasCreated),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        duration: Duration(seconds: 2),
+                        content: Text('Что-то пошло не так =('),
+                      ));
+                    }
+                  },
                 );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } else {
                 const snackBar = SnackBar(
                   duration: Duration(seconds: 2),

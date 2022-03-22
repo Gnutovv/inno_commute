@@ -1,9 +1,9 @@
 import 'package:inno_commute/future/model/directions.dart';
 
 class Trip {
-  int id;
   bool isDriver;
   String author;
+  String creatorId;
   Direction cityFrom;
   Direction cityTo;
   DateTime time;
@@ -11,9 +11,9 @@ class Trip {
   String comment;
   bool active;
   Trip({
-    this.id = 0,
     this.isDriver = false,
-    this.author = 'author',
+    this.author = '',
+    required this.creatorId,
     this.cityFrom = Direction.innopolis,
     this.cityTo = Direction.kazan,
     required this.time,
