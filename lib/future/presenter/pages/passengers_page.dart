@@ -18,6 +18,10 @@ class PassengerPage extends StatelessWidget {
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.data?.size == 0) {
             return const PassengerPageHasNotData();
           } else if (snapshot.hasError) {
             return const PassengerPageHasError();
