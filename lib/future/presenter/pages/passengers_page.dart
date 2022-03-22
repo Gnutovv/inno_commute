@@ -44,40 +44,38 @@ class PassengerPage extends StatelessWidget {
                   String? comment = isComment
                       ? snapshot.data!.docs[index].get('comment')
                       : null;
-                  return Dismissible(
-                      key: Key(snapshot.data!.docs[index].id),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => TripDetails(
-                                        name: name,
-                                        alias: alias,
-                                        cityFrom: cityFrom,
-                                        cityTo: cityTo,
-                                        time: dateTime,
-                                      )));
-                        },
-                        child: Card(
-                          color: Colors.cyan[50],
-                          child: ListTile(
-                              leading: peopleIcon,
-                              title: Text('$cityFrom -> $cityTo'),
-                              subtitle: isComment ? Text(comment!) : null,
-                              trailing: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(data),
-                                  Text(
-                                    time,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              )),
-                        ),
-                      ));
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TripDetails(
+                                    name: name,
+                                    alias: alias,
+                                    cityFrom: cityFrom,
+                                    cityTo: cityTo,
+                                    time: dateTime,
+                                  )));
+                    },
+                    child: Card(
+                      color: Colors.cyan[50],
+                      child: ListTile(
+                          leading: peopleIcon,
+                          title: Text('$cityFrom -> $cityTo'),
+                          subtitle: isComment ? Text(comment!) : null,
+                          trailing: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(data),
+                              Text(
+                                time,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          )),
+                    ),
+                  );
                 },
               ),
             );

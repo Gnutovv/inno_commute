@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inno_commute/future/model/cubit/my_trips_cubit.dart';
 import 'package:inno_commute/future/model/cubit/navigator_cubit.dart';
 import 'package:inno_commute/future/model/cubit/new_trip_cubit.dart';
 import 'package:inno_commute/future/model/cubit/user_cubit.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<NavigatorCubit>(create: (context) => NavigatorCubit()),
           BlocProvider<UserCubit>(create: (context) => UserCubit()),
+          BlocProvider<MyTripsCubit>(create: (context) => MyTripsCubit()),
         ],
         child: const MainTemplate(),
       ),

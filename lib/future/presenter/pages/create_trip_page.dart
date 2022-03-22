@@ -80,7 +80,8 @@ class NewTrip extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+            padding:
+                const EdgeInsets.only(left: 20, right: 20, bottom: 16, top: 16),
             child: TextField(
               decoration: const InputDecoration(
                   border: OutlineInputBorder(
@@ -99,20 +100,16 @@ class NewTrip extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               String _commentText = _commentController.text;
-              debugPrint('Проверяем наличие коммента');
               if (_commentText.isNotEmpty) {
-                debugPrint('Коммент есть, добавляем в репо, и меняем булево');
                 context.read<NewTripCubit>().addComment(_commentText);
                 context.read<NewTripCubit>().state.repository.trip.isComment =
                     true;
               } else {
-                debugPrint('Коммента нет, обнуляем в репо, и меняем булево');
                 context.read<NewTripCubit>().addComment('');
                 context.read<NewTripCubit>().state.repository.trip.isComment =
                     false;
               }
 
-              debugPrint('Создаем поездку');
               if (TripsRepository(
                           context.read<NewTripCubit>().state.repository.trip)
                       .checkTime() &&
