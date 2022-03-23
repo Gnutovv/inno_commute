@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:inno_commute/future/presenter/res/text_const.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TripDetails extends StatelessWidget {
@@ -88,14 +89,15 @@ class TripDetails extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(22.0),
-              child: Container(child: Text(comment)),
+              child: Container(
+                  padding: const EdgeInsets.all(8), child: Text(comment)),
             ),
             Padding(
               padding: const EdgeInsets.all(22.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Написать в telegram:'),
+                  const Text(sendToTelegram),
                   TextButton(
                       onPressed: () {
                         launchTelegram();

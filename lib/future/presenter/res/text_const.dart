@@ -15,5 +15,8 @@ const String newTripP = 'Новая поездка';
 const String myTripP = 'Мои поездки';
 const String settingsP = 'Настройки';
 const String appName = 'Inno Commute';
+const String sendToTelegram = 'Написать в telegram:';
+const String changedData = 'Данные изменены';
+const String userExists = 'Такой пользователь уже существует, смените логин';
 
 //const String  = ;
