@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inno_commute/future/model/cubit/user_cubit.dart';
+import 'package:inno_commute/future/presenter/res/text_const.dart';
 
 class ChangeDataDialog extends StatelessWidget {
   const ChangeDataDialog({Key? key}) : super(key: key);
@@ -133,13 +134,12 @@ class ChangeDataDialog extends StatelessWidget {
                         ? ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                             duration: Duration(seconds: 2),
-                            content: Text('Данные изменены'),
+                            content: Text(changedData),
                           ))
                         : ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                             duration: Duration(seconds: 2),
-                            content: Text(
-                                'Такой пользователь уже существует, смените логин'),
+                            content: Text(userExists),
                           )));
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

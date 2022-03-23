@@ -21,7 +21,7 @@ class SettingsPageIsAuthorized extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24),
           decoration: BoxDecoration(
               border: Border.all(color: Colors.cyan),
-              borderRadius: BorderRadius.all(Radius.circular(18))),
+              borderRadius: const BorderRadius.all(Radius.circular(18))),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

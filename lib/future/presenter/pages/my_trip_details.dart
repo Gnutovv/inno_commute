@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:inno_commute/future/model/repository/trips_repository.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MyTripDetails extends StatelessWidget {
   final String id;

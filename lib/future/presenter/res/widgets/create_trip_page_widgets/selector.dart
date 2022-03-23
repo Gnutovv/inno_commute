@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inno_commute/future/model/cubit/new_trip_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inno_commute/future/model/repository/new_trip_repository.dart';
 
 class TypeOfTripSelector extends StatelessWidget {
   TypeOfTripSelector({Key? key}) : super(key: key);
