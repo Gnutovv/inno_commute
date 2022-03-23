@@ -50,8 +50,19 @@ class SettingsPageIsNotAuthorized extends StatelessWidget {
           const SizedBox(height: 32),
           ElevatedButton(
             onPressed: () {
-              context.read<UserCubit>().authorizationUser(
-                  _loginController.text, _passController.text);
+              FocusScope.of(context).requestFocus(FocusNode());
+              context
+                  .read<UserCubit>()
+                  .authorizationUser(
+                      _loginController.text, _passController.text)
+                  .then((value) {
+                if (!value) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    duration: Duration(seconds: 2),
+                    content: Text('Неверные логин или пароль'),
+                  ));
+                }
+              });
             },
             child: const Text('Авторизоваться'),
             style: ElevatedButton.styleFrom(

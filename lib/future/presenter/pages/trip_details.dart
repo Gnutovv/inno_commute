@@ -7,6 +7,7 @@ class TripDetails extends StatelessWidget {
   final String cityFrom;
   final String cityTo;
   final String alias;
+  final String comment;
   final DateTime time;
 
   const TripDetails(
@@ -15,7 +16,8 @@ class TripDetails extends StatelessWidget {
       required this.cityTo,
       required this.time,
       required this.alias,
-      required this.name})
+      required this.name,
+      required this.comment})
       : super(key: key);
 
   @override
@@ -26,6 +28,27 @@ class TripDetails extends StatelessWidget {
       if (await canLaunch(url)) {
         await launch(url);
       }
+    }
+
+    String parseDate(DateTime date) {
+      String dd = date.day.toString().length == 1
+          ? '0${date.day.toString()}'
+          : date.day.toString();
+      String mm = date.month.toString().length == 1
+          ? '0${date.month.toString()}'
+          : date.month.toString();
+
+      return '$dd.$mm.${date.year.toString()}';
+    }
+
+    String parseTime(DateTime time) {
+      String hh = time.day.toString().length == 1
+          ? '0${time.hour.toString()}'
+          : time.hour.toString();
+      String mm = time.minute.toString().length == 1
+          ? '0${time.minute.toString()}'
+          : time.minute.toString();
+      return '$hh:$mm';
     }
 
     return Scaffold(
@@ -61,7 +84,11 @@ class TripDetails extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(22.0),
-              child: Text('Когда: ${time.toLocal()}'),
+              child: Text('Когда: ${parseDate(time)} ${parseTime(time)}'),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(22.0),
+              child: Container(child: Text(comment)),
             ),
             Padding(
               padding: const EdgeInsets.all(22.0),

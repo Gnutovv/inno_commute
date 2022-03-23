@@ -61,13 +61,34 @@ class UserRepository {
       required String login,
       required String name,
       required String alias,
-      required String password}) async {
+      required String? password}) async {
     var fs = FirebaseFirestore.instance.collection('users');
-    var result =
-        await fs.where('up_login', isEqualTo: login.toUpperCase()).get();
-    if (result.docs.isNotEmpty) {
-      return false;
+    if (password == null) {
+      fs.doc(userId).update({
+        'login': login,
+        'name': name,
+        'alias': alias,
+        'up_login': login.toUpperCase()
+      });
+      user.login = login;
+      user.alias = alias;
+      user.name = name;
+      userSave();
+      return true;
     } else {
+      fs.doc(userId).update({
+        'login': login,
+        'name': name,
+        'alias': alias,
+        'up_login': login.toUpperCase(),
+        'password': md5.convert(utf8.encode(password)).toString()
+      });
+
+      user.login = login;
+      user.alias = alias;
+      user.name = name;
+      user.password = md5.convert(utf8.encode(password)).toString();
+      userSave();
       return true;
     }
   }

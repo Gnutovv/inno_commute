@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:inno_commute/future/model/repository/trips_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MyTripDetails extends StatelessWidget {
+  final String id;
   final String name;
+  final bool isDriver;
+  final bool isActive;
   final String cityFrom;
   final String cityTo;
   final String alias;
@@ -15,17 +19,33 @@ class MyTripDetails extends StatelessWidget {
       required this.cityTo,
       required this.time,
       required this.alias,
-      required this.name})
+      required this.name,
+      required this.id,
+      required this.isDriver,
+      required this.isActive})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    void launchTelegram() async {
-      var edAlias = alias[0] == '@' ? alias.substring(1, alias.length) : alias;
-      String url = 'https://t.me/$edAlias';
-      if (await canLaunch(url)) {
-        await launch(url);
-      }
+    String parseDate(DateTime date) {
+      String dd = date.day.toString().length == 1
+          ? '0${date.day.toString()}'
+          : date.day.toString();
+      String mm = date.month.toString().length == 1
+          ? '0${date.month.toString()}'
+          : date.month.toString();
+
+      return '$dd.$mm.${date.year.toString()}';
+    }
+
+    String parseTime(DateTime time) {
+      String hh = time.day.toString().length == 1
+          ? '0${time.hour.toString()}'
+          : time.hour.toString();
+      String mm = time.minute.toString().length == 1
+          ? '0${time.minute.toString()}'
+          : time.minute.toString();
+      return '$hh:$mm';
     }
 
     return Scaffold(
@@ -61,22 +81,49 @@ class MyTripDetails extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(22.0),
-              child: Text('Когда: ${time.toLocal()}'),
+              child: Text('Когда: ${parseDate(time)} ${parseTime(time)}'),
             ),
             Padding(
-              padding: const EdgeInsets.all(22.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Написать в telegram:'),
-                  TextButton(
+                padding: const EdgeInsets.all(22.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    isActive
+                        ? IconButton(
+                            iconSize: 36,
+                            icon: const Icon(
+                              Icons.cancel_sharp,
+                              color: Colors.grey,
+                            ),
+                            onPressed: () {
+                              TripOperations().cancelTrip(id, isDriver);
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        : IconButton(
+                            iconSize: 36,
+                            icon: const Icon(
+                              Icons.task_alt_outlined,
+                              color: Colors.green,
+                            ),
+                            onPressed: () {
+                              TripOperations().restoreTrip(id, isDriver);
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                    IconButton(
+                      iconSize: 36,
+                      icon: const Icon(
+                        Icons.delete_forever,
+                        color: Colors.red,
+                      ),
                       onPressed: () {
-                        launchTelegram();
+                        TripOperations().deleteTrip(id, isDriver);
+                        Navigator.of(context).pop();
                       },
-                      child: Text(alias)),
-                ],
-              ),
-            ),
+                    ),
+                  ],
+                )),
           ],
         ),
       ),

@@ -19,16 +19,9 @@ class UserCubit extends Cubit<UserState> {
   }
 
   Future<bool> authorizationUser(String login, String password) async {
-    await state.repository
-        .authorizationUser(login: login, password: password)
-        .then((value) {
-      if (value) {
-        emit(AuthorizationUser(state.repository));
-        return true;
-      } else {
-        return false;
-      }
-    });
-    return true;
+    bool res = await state.repository
+        .authorizationUser(login: login, password: password);
+    if (res) emit(AuthorizationUser(state.repository));
+    return res;
   }
 }

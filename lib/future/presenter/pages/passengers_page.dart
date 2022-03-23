@@ -7,13 +7,34 @@ import 'package:inno_commute/future/presenter/res/widgets/icons.dart';
 class PassengerPage extends StatelessWidget {
   const PassengerPage({Key? key}) : super(key: key);
 
+  String parseDate(DateTime date) {
+    String dd = date.day.toString().length == 1
+        ? '0${date.day.toString()}'
+        : date.day.toString();
+    String mm = date.month.toString().length == 1
+        ? '0${date.month.toString()}'
+        : date.month.toString();
+
+    return '$dd.$mm.${date.year.toString()}';
+  }
+
+  String parseTime(DateTime time) {
+    String hh = time.day.toString().length == 1
+        ? '0${time.hour.toString()}'
+        : time.hour.toString();
+    String mm = time.minute.toString().length == 1
+        ? '0${time.minute.toString()}'
+        : time.minute.toString();
+    return '$hh:$mm';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('trips_passenger')
-            //.where('is_active', isEqualTo: true)
+            //.where('is_active', isEqualTo: true) Не смог сделать двойное условие
             .where('time', isGreaterThan: DateTime.now().millisecondsSinceEpoch)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -33,9 +54,8 @@ class PassengerPage extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   var dateTime = DateTime.fromMillisecondsSinceEpoch(
                       snapshot.data!.docs[index].get('time') as int);
-                  String data =
-                      '${dateTime.day}-${dateTime.month}-${dateTime.year}';
-                  String time = '${dateTime.hour}:${dateTime.minute}';
+                  String data = parseDate(dateTime);
+                  String time = parseTime(dateTime);
                   String name = snapshot.data!.docs[index].get('author');
                   String cityFrom = snapshot.data!.docs[index].get('city_from');
                   String cityTo = snapshot.data!.docs[index].get('city_to');
@@ -55,6 +75,7 @@ class PassengerPage extends StatelessWidget {
                                     cityFrom: cityFrom,
                                     cityTo: cityTo,
                                     time: dateTime,
+                                    comment: isComment ? comment! : '',
                                   )));
                     },
                     child: Card(

@@ -10,6 +10,27 @@ class MyTripsDriver extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String parseDate(DateTime date) {
+      String dd = date.day.toString().length == 1
+          ? '0${date.day.toString()}'
+          : date.day.toString();
+      String mm = date.month.toString().length == 1
+          ? '0${date.month.toString()}'
+          : date.month.toString();
+
+      return '$dd.$mm.${date.year.toString()}';
+    }
+
+    String parseTime(DateTime time) {
+      String hh = time.day.toString().length == 1
+          ? '0${time.hour.toString()}'
+          : time.hour.toString();
+      String mm = time.minute.toString().length == 1
+          ? '0${time.minute.toString()}'
+          : time.minute.toString();
+      return '$hh:$mm';
+    }
+
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('trips_driver')
@@ -32,9 +53,10 @@ class MyTripsDriver extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 var dateTime = DateTime.fromMillisecondsSinceEpoch(
                     snapshot.data!.docs[index].get('time') as int);
-                String data =
-                    '${dateTime.day}-${dateTime.month}-${dateTime.year}';
-                String time = '${dateTime.hour}:${dateTime.minute}';
+                String data = parseDate(dateTime);
+                String time = parseTime(dateTime);
+                String id = snapshot.data!.docs[index].id;
+                bool isActive = snapshot.data!.docs[index].get('active');
                 String name = snapshot.data!.docs[index].get('author');
                 String cityFrom = snapshot.data!.docs[index].get('city_from');
                 String cityTo = snapshot.data!.docs[index].get('city_to');
@@ -49,15 +71,18 @@ class MyTripsDriver extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => MyTripDetails(
+                                  id: id,
                                   name: name,
                                   alias: alias,
                                   cityFrom: cityFrom,
                                   cityTo: cityTo,
                                   time: dateTime,
+                                  isDriver: true,
+                                  isActive: isActive,
                                 )));
                   },
                   child: Card(
-                    color: Colors.cyan[50],
+                    color: isActive ? Colors.cyan[50] : Colors.grey[300],
                     child: ListTile(
                         leading: driverIcon,
                         title: Text('$cityFrom -> $cityTo'),

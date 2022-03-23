@@ -120,7 +120,15 @@ class ChangeDataDialog extends StatelessWidget {
                         login: _controllers['login']!.text,
                         name: _controllers['name']!.text,
                         alias: _controllers['alias']!.text,
-                        password: _controllers['password']!.text)
+                        password: _controllers['password']!.text ==
+                                context
+                                    .read<UserCubit>()
+                                    .state
+                                    .repository
+                                    .user
+                                    .password
+                            ? null
+                            : _controllers['password']!.text)
                     .then((value) => value
                         ? ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(

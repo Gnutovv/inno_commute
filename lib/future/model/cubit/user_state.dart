@@ -15,5 +15,5 @@ class AuthorizationUser extends UserState {
 }
 
 class DeauthorizationUser extends UserState {
-  DeauthorizationUser(UserRepository repository) : super(repository);
+  const DeauthorizationUser(UserRepository repository) : super(repository);
 }
